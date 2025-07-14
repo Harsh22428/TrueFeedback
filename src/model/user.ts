@@ -29,7 +29,6 @@ export interface User extends Document{
     isAcceptingMessages:boolean;
     messages: Message[];
     createdAt: Date;
-
 }
 
 const UserSchema:Schema<User>=new Schema({

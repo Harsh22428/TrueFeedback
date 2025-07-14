@@ -36,6 +36,7 @@ export async function POST(request: Request) {
                 await existingUserByEmail.save()
             }
         }
+        // first time user
         else {
             const hashedPassword = await bcrypt.hash(password, 10)
             const expiryDate = new Date()
@@ -69,9 +70,9 @@ export async function POST(request: Request) {
         }
         return Response.json({
             success:
-                false,
+                true,
             message: "user register Successfully. please verify your email"
-        }, { status: 500 })
+        }, { status: 201 })
 
     }
     catch (error) {
