@@ -8,15 +8,9 @@ import { NextResponse } from "next/server";
 
 
 export async function DELETE(request: Request,
-     {params}:{ params : Promise< { messageid: string }>} ) {
-        const { messageid } = await params;
+     {params}:{ params :  { messageid: string }} ) {
+        const  messageId  = params.messageid;
 
-  if (!messageid) {
-    return NextResponse.json(
-      { success: false, message: "messageid is required" },
-      { status: 400 }
-    );
-  }
     await dbConnect();
     const session = await getServerSession(authOptions);
     const user: User = session?.user as User
@@ -32,7 +26,7 @@ export async function DELETE(request: Request,
     try {
          
         const updateResult = await UserModal.updateOne({ _id: user._id }, {
-            $pull: { messages: { _id: messageid } }
+            $pull: { messages: { _id: messageId } }
         })
         if (updateResult.modifiedCount == 0) {
             return Response.json({
