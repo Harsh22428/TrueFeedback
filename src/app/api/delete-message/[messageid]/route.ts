@@ -28,9 +28,11 @@ export async function DELETE(request: Request,
             status: 401
         })
     }
+
     try {
+         const { messageid } = params;
         const updateResult = await UserModal.updateOne({ _id: user._id }, {
-            $pull: { messages: { _id: params.messageid } }
+            $pull: { messages: { _id: messageid } }
         })
         if (updateResult.modifiedCount == 0) {
             return Response.json({
