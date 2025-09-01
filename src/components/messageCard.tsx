@@ -5,7 +5,6 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -24,7 +23,7 @@ import {
 
 import { Button } from "./ui/button";
 import { Message } from "@/model/user";
-import {toast, useSonner} from "sonner"
+import {toast} from "sonner"
 import axios from "axios";
 
 type messageProps={

@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
@@ -12,20 +11,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { LoaderOne } from "@/components/ui/loader";
+
 
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
 import { useDebounceCallback } from "usehooks-ts";
 import { useEffect, useState } from "react";
-import { toast, useSonner, Toaster } from "sonner";
+import { toast} from "sonner";
 import { useRouter } from "next/navigation";
 import { signUpSchema } from "@/schemas/signUpSchema";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "../../../../types/ApiResponse";
+import { Loader2 } from "lucide-react";
 
-const page = () => {
+const SignupPage = () => {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -53,7 +53,7 @@ const page = () => {
             `/api/check-username-unique?username=${username}`
           );
         //   console.log(response.data.message)
-          let message=response.data.message
+          const message=response.data.message
           setUsernameMessage(message);
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
@@ -79,7 +79,7 @@ const page = () => {
       setIsSubmitting(false);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      let errMessage = axiosError.response?.data.message;
+      const errMessage = axiosError.response?.data.message;
       console.error("Error in signup of user", error);
       toast.message("sign up failed", {
         description: errMessage,
@@ -114,7 +114,7 @@ const page = () => {
                     }}
                   />
                 {
-                    isCheckingUsername&& <LoaderOne />
+                    isCheckingUsername&& <Loader2/>
                 }
                {(<p className={`text-sm ${usernameMessage==="Username is unique"?'text-green-500':'text-red-500'}`}>
                      {usernameMessage}
@@ -152,7 +152,7 @@ const page = () => {
           <Button type="submit" className="w-full cursor-pointer" disabled={isSubmitting}>
             {isSubmitting ? (
               <>
-                <LoaderOne /> Please Wait
+                <Loader2/> Please Wait
               </>
             ) : (
               "Signup"
@@ -173,4 +173,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SignupPage;

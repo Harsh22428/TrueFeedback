@@ -47,7 +47,7 @@ function UserDashboard() {
     } finally {
       setIsSwitchLoading(false);
     }
-  }, [setValue,toast]);
+  }, [setValue]);
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
       setIsLoading(true);
@@ -73,14 +73,14 @@ function UserDashboard() {
         setIsSwitchLoading(false);
       }
     },
-    [setIsLoading, setMessages, toast]
+    [setIsLoading, setMessages]
   );
   // fetch initial state from the server
   useEffect(()=>{
     if(!session || !session.user) return;
     fetchMessages();
     fetchAcceptMessages();
-  },[session,setValue,toast,fetchMessages,fetchAcceptMessages])
+  },[session,setValue,fetchMessages,fetchAcceptMessages])
 
   // handle switch change
   const handleSwitchChange = async () => {
@@ -170,7 +170,7 @@ function UserDashboard() {
       </Button>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
         {messages.length > 0 ? (
-          messages.map((message, index) => (
+          messages.map((message) => (
             <MessageCard
               key={message._id}
               message={message}

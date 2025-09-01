@@ -1,4 +1,4 @@
-export const dyamic='force-dyamic';
+// export const dyamic='force-dyamic';
 import dbConnect from "@/lib/dbConnect";
 import { UserModal } from "@/model/user";
 import {z} from "zod";

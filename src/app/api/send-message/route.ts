@@ -1,6 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
 import { Message, UserModal } from "@/model/user";
-import { use } from "react";
 export async function POST(request:Request){
     await dbConnect();
     const {username,content}=await request.json();

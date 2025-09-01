@@ -3,7 +3,7 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import { UserModal } from "@/model/user";
 import dbConnect from "@/lib/dbConnect";
 import { User } from "next-auth"
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 export async function POST(request: Request) {
     await dbConnect()
     const session = await getServerSession(authOptions)
