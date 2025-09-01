@@ -5,10 +5,14 @@ import { User } from "next-auth";
 import { UserModal } from "@/model/user";
 import { NextResponse } from "next/server";
 
-
+ interface RouteParams {
+  params: {
+    messageid: string;
+  };
+}
 
 export async function DELETE(request: Request,
-     {params}:{ params :  { messageid: string }} ) {
+     {params}:RouteParams ) {
         const  messageId  = params.messageid;
 
     await dbConnect();
