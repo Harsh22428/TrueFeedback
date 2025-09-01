@@ -1,5 +1,5 @@
 import React from "react";
-
+import {X} from "lucide-react"
 import {
   Card,
   CardAction,
@@ -20,7 +20,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-// import {X} form "lucide-react"
+
 
 import { Button } from "./ui/button";
 import { Message } from "@/model/user";
@@ -33,11 +33,11 @@ type messageProps={
 }
 function MessageCard({message,onMessageDelete}:messageProps) {
    const handleDeleteConfirm =async()=>{
-    const response = axios.delete(`/api/delete-message/${message._id}`)
-    toast.message("Sucessfully Delete",{
+    const response = await axios.delete(`/api/delete-message/${message._id}`)
+    toast.message("Successfully Deleted",{
         description:response.data.message
     })
-    onMessageDelete(message._id)
+    onMessageDelete(String(message._id))
    }
   return (
     <Card>

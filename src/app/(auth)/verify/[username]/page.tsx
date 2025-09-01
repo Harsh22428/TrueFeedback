@@ -1,14 +1,21 @@
-'use client';
-import { useParams,useRouter } from "next/navigation";
+"use client";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import * as z from "zod";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { verifySchema } from "@/schemas/verifySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { ApiResponse } from "../../../../../types/ApiResponse";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage,Form } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Form,
+} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -44,25 +51,27 @@ function VerifyAccount() {
           </h1>
           <p className="mb-4 ">Enter the Verification code sent your mail</p>
         </div>
-         <Form {...form}>
-      <form onSubmit={form.handleSubmit(onsubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="code"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Verification Code</FormLabel>
-              <FormControl>
-                <Input placeholder="code" {...field} />
-              </FormControl>
-              
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className="w-full cursor-pointer"  type="submit">Submit</Button>
-      </form>
-    </Form>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onsubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Verification Code</FormLabel>
+                  <FormControl>
+                    <Input placeholder="code" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button className="w-full cursor-pointer" type="submit">
+              Submit
+            </Button>
+          </form>
+        </Form>
       </div>
     </div>
   );

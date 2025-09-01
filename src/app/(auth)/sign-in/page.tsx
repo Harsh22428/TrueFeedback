@@ -23,19 +23,16 @@ import { useRouter } from 'next/navigation';
 //     )
 // }
 import React from 'react'
-import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
 import * as z from "zod";
-import { useState } from 'react';
-import axios from 'axios';
-import {toast} from "sonner"
-import { ApiResponse } from '../../../../types/ApiResponse';
+import { useState } from 'react'
+import { toast } from "sonner"
 import { signIn } from 'next-auth/react';
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { LoaderOne } from '@/components/ui/loader';
+import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
-
 
 function SigninPage() {
   const router=useRouter();
@@ -46,30 +43,31 @@ function SigninPage() {
       password:""
     }
   })
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onsubmit=async (data:z.infer<typeof signInSchema>)=>{
+    setIsSubmitting(true);
     const result=await signIn("credentials",{
       redirect:false,
       identifier:data.identifier,
       password:data.password
     })
-    console.log(result)
     if(result?.error){
-      if(result.error=='CrendentialsSignIn'){
-        toast.message("Login Failed",{
-          description:"Incorrect Password and Email"
+      if (result.error === 'credentialsSignin') {
+        toast.error("Login Failed", {
+          description: "Incorrect username or password"
         })
       }
       else{
-        toast.message("Error",{
+        toast.error("Error", {
           description:result.error
         })
       }
+      setIsSubmitting(false);
     }
-    if(result?.url){
+    if (result?.url) {
       router.replace('/dashboard')
     }
-
   }
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -109,8 +107,15 @@ function SigninPage() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full cursor-pointer" >
-            SignIn
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </>
+            ) : (
+              'Sign In'
+            )}
           </Button>
         </form>
       </Form>
@@ -128,4 +133,3 @@ function SigninPage() {
 }
 
 export default SigninPage;
-
