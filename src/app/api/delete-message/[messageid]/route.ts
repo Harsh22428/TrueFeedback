@@ -8,8 +8,8 @@ import { NextResponse } from "next/server";
 
 
 export async function DELETE(request: Request,
-     {params}:{ params :  { messageid: string }} ) {
-        const { messageid } = params;
+     {params}:{ params : Promise< { messageid: string }>} ) {
+        const { messageid } = await params;
 
   if (!messageid) {
     return NextResponse.json(
@@ -30,7 +30,7 @@ export async function DELETE(request: Request,
     }
 
     try {
-         const { messageid } = params;
+         
         const updateResult = await UserModal.updateOne({ _id: user._id }, {
             $pull: { messages: { _id: messageid } }
         })
@@ -60,4 +60,5 @@ export async function DELETE(request: Request,
         })
 
     }
+   
 }
