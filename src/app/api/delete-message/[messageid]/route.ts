@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
 import { User } from "next-auth";
 import { UserModal } from "@/model/user";
-import { NextResponse } from "next/server";
+
 
  interface RouteParams {
   params: {
@@ -32,7 +32,7 @@ export async function DELETE(request: Request,
         const updateResult = await UserModal.updateOne({ _id: user._id }, {
             $pull: { messages: { _id: messageId } }
         })
-        if (updateResult.modifiedCount == 0) {
+        if (updateResult.modifiedCount === 0) {
             return Response.json({
                 success: false,
                 message: "Message Not found are already deleted"

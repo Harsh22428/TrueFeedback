@@ -7,6 +7,7 @@ export async function POST(request: Request) {
     try {
         const { username, code } = await request.json()
         const decodedUsername = decodeURIComponent(username)
+        // decodeURIComponet is used for decode the value from the url because when url is created then space and other special letter takes the some values like single space take %20
         const user = await UserModal.findOne({ username: decodedUsername })
         if (!user) {
             return Response.json({

@@ -1,5 +1,5 @@
 import React from "react";
-import {X} from "lucide-react"
+import { Trash2, X } from "lucide-react";
 import {
   Card,
   CardAction,
@@ -20,54 +20,56 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-
+import dayjs from "dayjs";
 import { Button } from "./ui/button";
 import { Message } from "@/model/user";
-import {toast} from "sonner"
+import { toast } from "sonner";
 import axios from "axios";
 
-type messageProps={
-    message:Message,
-    onMessageDelete:(messageId:string)=>void
-}
-function MessageCard({message,onMessageDelete}:messageProps) {
-   const handleDeleteConfirm =async()=>{
-    const response = await axios.delete(`/api/delete-message/${message._id}`)
-    toast.message("Successfully Deleted",{
-        description:response.data.message
-    })
-    onMessageDelete(String(message._id))
-   }
+type messageProps = {
+  message: Message;
+  onMessageDelete: (messageId: string) => void;
+};
+function MessageCard({ message, onMessageDelete }: messageProps) {
+  const handleDeleteConfirm = async () => {
+    const response = await axios.delete(`/api/delete-message/${message._id}`);
+    toast.message("Successfully Deleted", {
+      description: response.data.message,
+    });
+    onMessageDelete(String(message._id));
+  };
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
+        <CardTitle>{message.content}</CardTitle>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive">
-                <X className="w-5 h-5"/>
-                </Button>
+            <div className="flex justify-end items-center">
+            <Button className="cursor-pointer" variant="destructive">
+              <Trash2 className="size-5" />
+            </Button>
+            </div>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
                 This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
+                message from our servers.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDeleteConfirm}>Continue</AlertDialogAction>
+              <AlertDialogAction onClick={handleDeleteConfirm}>
+                Continue
+              </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-        <CardDescription>Card Description</CardDescription>
-        <CardAction>Card Action</CardAction>
+        <CardDescription>
+          {dayjs(message.createdAt).format("MMM D, YYYY h:mm A")}
+        </CardDescription>
       </CardHeader>
-      <CardContent>
-        <p>Card Content</p>
-      </CardContent>
     </Card>
   );
 }

@@ -4,10 +4,12 @@ import { UserModal } from "@/model/user";
 import dbConnect from "@/lib/dbConnect";
 import { User } from "next-auth"
 import mongoose from "mongoose";
-export async function POST(request: Request) {
+export async function GET(request: Request) {
     await dbConnect()
     const session = await getServerSession(authOptions)
     const user: User = session?.user as User
+    console.log("user in session ",user)
+    console.log("full in session ",session)
     if (!session || !session.user) {
         return Response.json({
             success: false,
@@ -16,20 +18,21 @@ export async function POST(request: Request) {
     }
     const userId = new mongoose.Types.ObjectId(user._id)
     try {
-     const user =await UserModal.aggregate([
-        {$match:{id:userId}},
+     const userAgg =await UserModal.aggregate([
+        {$match:{_id:userId}},
         {$unwind:'$messages'},
         {$sort:{'messages.createdAt':-1}},
-        {$group:{_id:'$_id',messages:{$push:'$messages'}}}
-     ]).exec();
-     if(!user || user.length===0){
+        {$group:{_id:'$_id',messages:{$push:'$messages'}}},
+     ])
+    //  .exec();
+     if(!userAgg || userAgg.length===0){
         return Response.json({
-            message:'User Not Found',
+            message:'User message Not Found',
             success:false
         },{status:404})
      }
      return Response.json({
-            messages:user[0].messages,
+            messages:userAgg[0].messages,
             success:true
         },{status:200})
     } catch (error) {

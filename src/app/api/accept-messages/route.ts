@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     const userId = user._id
     const { acceptMessages } = await request.json()
     try {
-        const updatedUser = UserModal.findByIdAndUpdate(userId,
+        const updatedUser = await UserModal.findByIdAndUpdate(userId,
             { isAcceptingMessages: acceptMessages },
             { new: true }
         )
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
             updatedUser
         }, { status: 200 })
     } catch (error) {
-        console.error("failed to update user status to accept messages")
+        console.error(" console errr failed to update user status to accept messages")
         return Response.json({
             success: false,
             message: "failed to update user status to accept messages"
@@ -57,11 +57,11 @@ export async function GET(request: Request) {
             return Response.json({
                 success: false,
                 message: "User not Found"
-            }, { status: 401 })
+            }, { status: 404 })
         }
         return Response.json({
             success: true,
-           isAcceptingMessages:foundUser.isAcceptingMessages
+           isAcceptingMessages:foundUser.isAcceptingMessages   // yaha par UserModal me isAcceptingMessages deafault true that mean If user is found then he accepts the messages
         }, { status: 200 })
     } catch (error) {
         console.log("failed to update user status to accept messages")
