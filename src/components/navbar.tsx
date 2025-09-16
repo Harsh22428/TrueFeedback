@@ -21,14 +21,14 @@ function Navbar() {
             <>
             <span>
                 Welcome, {user?.username || user?.email}
-                <Button onClick={()=>signOut() } className="w-full md:w-auto bg-slate-100 text-black" variant='outline'>LogOut</Button>
+                <Button onClick={()=>signOut() } className="w-full md:w-auto mx-6 bg-slate-100 text-black cursor-pointer" variant='outline'>LogOut</Button>
             </span>
             </>
             ):
             (
             <>
             <Link  href={'/sign-in'}>
-            <Button className="w-full md:w-auto cursor-pointer bg-slate-100 text-black" variant={'outline'}>
+            <Button className="w-full md:w-auto  cursor-pointer bg-slate-100 text-black" variant={'outline'}>
                 Login
             </Button>
             </Link>

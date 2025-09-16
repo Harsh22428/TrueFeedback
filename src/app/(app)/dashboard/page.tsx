@@ -164,13 +164,13 @@ function UserDashboard() {
             {/* Accept Messages Toggle */}
             <div className="flex items-center justify-between">
               <span className="font-medium">Accept Messages</span>
-              <Switch
+              <Switch 
              
                 {...register("acceptMessages")}
                 checked={acceptMessages}
                 onCheckedChange={handleSwitchChange}
                 disabled={isSwitchLoading}
-                className="bg-slate-900"
+                className="bg-slate-900 cursor-pointer"
               />
              
             </div>
@@ -192,7 +192,7 @@ function UserDashboard() {
                 <Button
                   onClick={copyToClipboard}
                   variant="default"
-                  className="w-full bg-slate-900"
+                  className="w-full bg-slate-900 cursor-pointer"
                 >
                   <ClipboardCopy className="mr-2 h-4 w-4 cursor-pointer" />
                   Copy Link
@@ -207,7 +207,7 @@ function UserDashboard() {
           <div className="rounded-lg border bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950">
             <div className="flex items-center justify-between border-b p-4 dark:border-slate-800">
               <h3 className="text-xl font-semibold">Messages</h3>
-              <Button
+              <Button className="cursor-pointer"
                 variant="outline"
                 size="icon"
                 onClick={(e) => {

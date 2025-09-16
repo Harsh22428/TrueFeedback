@@ -95,15 +95,15 @@ export default function sendMessage() {
           />
           <div>
             {isLoading ? (
-              <Button className="w-full" disabled>
+              <Button className="w-full cursor-pointer" disabled>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Please wait
               </Button>
             ) : (
               <Button
-                className="w-full"
+                className="w-full cursor-pointer"
                 type="submit"
-                disabled={isLoading || !messageContent}
+                // disabled={isLoading || !messageContent}
               >
                 Send It
               </Button>
@@ -123,7 +123,7 @@ export default function sendMessage() {
                                 <Button
                                     key={index}
                                     variant="outline"
-                                    className='w-full text-wrap max-sm:h-16'
+                                    className='w-full text-wrap cursor-pointer max-sm:h-16'
                                     onClick={() => handleMessageClick(message)}
                                 >
                                     {message}
@@ -136,14 +136,14 @@ export default function sendMessage() {
                 </Card>
                 <div className="space-y-2 w-full">
                     {isLoading ? (
-                        <Button disabled className="my-4 w-full text-white bg-blue-700 hover:bg-blue-800">
+                        <Button disabled className="my-4 w-full cursor-pointer text-white bg-blue-700 hover:bg-blue-800">
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             Suggesting
                         </Button>
                     ) : (
                         <Button
                             onClick={fetchSuggestMessages}
-                            className="my-4 w-full text-white bg-blue-700 hover:bg-blue-800"
+                            className="my-4 w-full cursor-pointer text-white bg-blue-700 hover:bg-blue-800"
                             disabled={isLoading}
                         >
                             Suggest Messages
