@@ -1,9 +1,9 @@
 import dbConnect from "@/lib/dbConnect";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
-import { User } from "next-auth";
+
 import { UserModal } from "@/model/user";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
 
@@ -11,11 +11,14 @@ type RouteParams = {
     messageid: string;
 }
 export async function DELETE(request: NextRequest,
-    context: { params: RouteParams }) {
+    // context: { params: Record<string,string> }
+) {
 
-    const { messageid } = context.params;
+    // const { messageid } = context.params;
+    const url=new URL(request.url);
+    const messageid=url.pathname.split('/').pop();
     if (!messageid) {
-        return Response.json({
+        return NextResponse.json({
             success: false,
             message: "Message ID is required"
         }, { status: 400 });
@@ -24,7 +27,7 @@ export async function DELETE(request: NextRequest,
     try {
         await dbConnect();
         const session = await getServerSession(authOptions);
-        const user: User = session?.user as User
+        // const user: User = session?.user as User
         if (!session || !session.user) {
             return Response.json({
                 success: false,
@@ -33,19 +36,25 @@ export async function DELETE(request: NextRequest,
                 status: 401
             })
         }
-
+        const userEmail=session.user.email;
+        const user=await UserModal.findOne({email:userEmail})
+      if(!user){
+        return NextResponse.json({
+            success:false,message:'USer not found'
+        },{status:400})
+      }
         const updateResult = await UserModal.updateOne({ _id: user._id }, {
             $pull: { messages: { _id: messageid } }
         })
         if (updateResult.modifiedCount === 0) {
-            return Response.json({
+            return NextResponse.json({
                 success: false,
                 message: "Message Not found are already deleted"
             }, {
                 status: 401
             })
         }
-        return Response.json({
+        return NextResponse.json({
             success: true,
             message: "Message Deleted Successfully"
         }, {
