@@ -3,34 +3,39 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
 import { User } from "next-auth";
 import { UserModal } from "@/model/user";
+import { NextRequest } from "next/server";
 
 
- interface RouteParams {
-  params: {
+
+type RouteParams = {
     messageid: string;
-  };
 }
+export async function DELETE(request: NextRequest,
+    context: { params: RouteParams }) {
 
-export async function DELETE(request: Request,
-     {params}:RouteParams ) {
-        const  messageId  = params.messageid;
-
-    await dbConnect();
-    const session = await getServerSession(authOptions);
-    const user: User = session?.user as User
-    if (!session || !session.user) {
+    const { messageid } = context.params;
+    if (!messageid) {
         return Response.json({
             success: false,
-            message: "Not Authenticated"
-        }, {
-            status: 401
-        })
+            message: "Message ID is required"
+        }, { status: 400 });
     }
 
     try {
-         
+        await dbConnect();
+        const session = await getServerSession(authOptions);
+        const user: User = session?.user as User
+        if (!session || !session.user) {
+            return Response.json({
+                success: false,
+                message: "Not Authenticated"
+            }, {
+                status: 401
+            })
+        }
+
         const updateResult = await UserModal.updateOne({ _id: user._id }, {
-            $pull: { messages: { _id: messageId } }
+            $pull: { messages: { _id: messageid } }
         })
         if (updateResult.modifiedCount === 0) {
             return Response.json({
@@ -40,7 +45,7 @@ export async function DELETE(request: Request,
                 status: 401
             })
         }
-         return Response.json({
+        return Response.json({
             success: true,
             message: "Message Deleted Successfully"
         }, {
@@ -49,8 +54,8 @@ export async function DELETE(request: Request,
 
 
     } catch (error) {
-        console.log("Error in message delete route",error)
-         return Response.json({
+        console.log("Error in message delete route", error)
+        return Response.json({
             success: false,
             message: "Error Deleting Messages"
         }, {
@@ -58,5 +63,5 @@ export async function DELETE(request: Request,
         })
 
     }
-   
+
 }
