@@ -9,13 +9,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Mail } from 'lucide-react';
 import messages from "@/app/(app)/messages.json"
 import Autoplay from 'embla-carousel-autoplay'
+import Link from 'next/link';
 
 export default function Home() {
+  {/* Main content */}
+      
   return (
-    <>
-      {/* Main content */}
-      <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-gray-800 text-white">
-        <section className="text-center mb-8 md:mb-12">
+       <>
+      <div className="h-screen w-full overflow-y-auto flex flex-col bg-gradient-to-b from-gray-900 to-gray-800">
+      {/* Hero Section */}
+      <main className="flex-1 flex flex-col items-center justify-center px-6 lg:px-32 py-16 min-h-0">
+        <section className="text-center text-white mb-8 md:mb-12">
           <h1 className="text-3xl md:text-5xl font-bold">
             Dive into the World of Anonymous Feedback
           </h1>
@@ -54,8 +58,11 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
-        © 2023 True Feedback. All rights reserved.
+        © 2025 True Feedback. All rights reserved.
+        <br />
+      <a className="cursor-pointer text-blue-500 hover:text-shadow-blue-600" href="https://github.com/Harsh22428">Created By Harsh Sharma </a>
       </footer>
+      </div>
     </>
   );
 }
