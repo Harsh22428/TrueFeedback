@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { DB_NAME } from "./dbname";
+import { error } from "console";
 
 type ConnectionObject = {
     isConnected?: number
@@ -14,10 +15,13 @@ async function dbConnect(): Promise<void> {
         console.log("Already connected to the database");
         return;
     }
+    const MONGODB_URI=process.env.MONGODB_URI
+    if(!MONGODB_URI){
+     throw new Error("MOngo Uri is missing")
+    }
     try {
-        const db = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}` || '', {})
-        connection.isConnected = db.connections[0].
-            readyState;
+        const db = await mongoose.connect(`${process.env.MONGODB_URI}` || '', {})
+        connection.isConnected = db.connections[0].readyState;
         console.log("Connected to the database");
     }
     catch (error) {
